@@ -1,0 +1,27 @@
+odoo:
+  defaults:
+    depth: 1 # Or $DEPTH_DEFAULT. 1 is often enough for Odoo itself. Use $DEPTH_MERGE if you're merging PRs
+  remotes:
+    origin: https://github.com/OCA/OCB.git
+  target: origin 17.0 # Important: Specify branch 17.0
+  repos:
+    - odoo
+    - server-tools
+    - web
+    - social
+    - project
+    - knowledge
+    - partner-contact
+    - server-ux
+    - server-brand
+    - server-backend
+    - server-tools
+    - web-frontend
+    - web-backend
+    - web-editor
+    - web-mobile
+    - web-odoo
+    - web-website
+    - web-widget
+    - web-view
+    - web-view-editor

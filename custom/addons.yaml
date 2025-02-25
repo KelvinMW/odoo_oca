@@ -1,0 +1,7 @@
+base:
+  - web
+  - base # Always a good idea
+
+# Add any other repos and modules here, e.g.:
+# my_custom_repo:
+#   - my_module
