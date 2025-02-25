@@ -1,31 +1,33 @@
 services:
   odoo:
     build:
-      context: . # Build from the current directory
-      dockerfile: Dockerfile # Ensure Dockerfile is referenced
-    image: odoo_oca:17 # Name your image
+      context: .
+      dockerfile: Dockerfile
+    image: odoo_oca:17
     depends_on:
       - db
     ports:
-      - "8069:8069" # Odoo web interface
+      - "8069:8069"
     volumes:
       - odoo-web-data:/var/lib/odoo
       - odoo-filestore:/var/lib/odoo/filestore
-      - ./custom:/opt/odoo/custom # Mount custom modules
+      - ./custom:/opt/odoo/custom
     environment:
-      - ODOO_VERSION=17.0 # Important: Set Odoo Version
+      - ODOO_VERSION=17.0
+      - PGHOST=db
+      - PGPORT=5432
       - PGDATABASE=odoo
       - PGUSER=odoo
       - PGPASSWORD=odoo
-      - ODOO_ADMIN_PASSWORD=admin # Added: Set Odoo admin password
-      - ODOO_EMAIL=admin@example.com # Added: Set Odoo admin email
-      - ODOO_DB=odoo # Added: Define Odoo database
-      - ODOO_DB_USER=odoo # Added: Define Odoo database user
-      - ODOO_DB_PASSWORD=odoo # Added: Define Odoo database password
+      - ODOO_ADMIN_PASSWORD=admin
+      - ODOO_EMAIL=admin@example.com
+      - ODOO_DB=odoo
+      - ODOO_DB_USER=odoo
+      - ODOO_DB_PASSWORD=odoo
     restart: always
 
   db:
-    image: postgres:15 # Or your preferred PostgreSQL version
+    image: postgres:15
     ports:
       - "5432:5432"
     environment:
