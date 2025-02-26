@@ -51,6 +51,11 @@ RUN git clone --depth 1 --branch ${ODOO_VERSION} ${ODOO_REPO} ${ODOO_HOME}/serve
 
 # Install Odoo Python dependencies
 WORKDIR ${ODOO_HOME}/server
+
+# Install problematic dependencies separately
+RUN pip3 install cython==0.29.24 gevent==21.8.0 greenlet==1.1.1
+
+# Install remaining dependencies from requirements file
 RUN pip3 install -r requirements.txt
 
 # Copy entrypoint script and Odoo configuration file
