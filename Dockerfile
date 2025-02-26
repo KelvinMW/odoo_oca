@@ -1,5 +1,5 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+# Set the base image to the official Odoo image
+FROM odoo:17.0
 
 # Set environment variables
 ENV ODOO_VERSION=17.0
@@ -7,7 +7,8 @@ ENV ODOO_REPO=https://github.com/OCA/OCB.git
 ENV ODOO_HOME=/opt/odoo
 ENV ODOO_CONF=${ODOO_HOME}/odoo.conf
 
-# Install dependencies
+# Install additional dependencies
+USER root
 RUN apt-get update && apt-get install -y \
     git \
     build-essential \
@@ -42,32 +43,26 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Create odoo user
-RUN useradd -m -U -r -d ${ODOO_HOME} -s /bin/bash odoo
-
 # Clone Odoo repository
 USER odoo
 RUN git clone --depth 1 --branch ${ODOO_VERSION} ${ODOO_REPO} ${ODOO_HOME}/server
 
-# Install Odoo Python dependencies
+# Set the working directory
 WORKDIR ${ODOO_HOME}/server
 
-# Install problematic dependencies separately
+# Install Python dependencies
+USER root
 RUN pip3 install cython==0.29.24 gevent==21.12.0 greenlet==1.1.2
-
-# Install remaining dependencies from requirements file with increased timeout and no cache
 RUN pip3 install --default-timeout=1000 -r requirements.txt
 
-# Copy entrypoint script and Odoo configuration file
+# Copy the entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /entrypoint.sh
 COPY ./odoo.conf ${ODOO_CONF}
 
 # Set permissions
-USER root
-RUN chown -R odoo: ${ODOO_HOME} /entrypoint.sh ${ODOO_CONF} \
-    && chmod +x /entrypoint.sh
+RUN chown -R odoo: ${ODOO_HOME} /entrypoint.sh ${ODOO_CONF} && chmod +x /entrypoint.sh
 
-# Expose Odoo port
+# Expose the Odoo port
 EXPOSE 8069
 
 # Set the default entrypoint
