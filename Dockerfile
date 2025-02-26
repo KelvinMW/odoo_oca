@@ -20,8 +20,7 @@ RUN apt-get update && apt-get install -y \
     libffi-dev \
     libjpeg-dev \
     libpq-dev \
-    libjpeg62-turbo-dev\
-   # libjpeg8-dev \
+    libjpeg62-turbo-dev \
     liblcms2-dev \
     libblas-dev \
     libatlas-base-dev \
@@ -37,6 +36,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     python3-dev \
     python3-pip \
+    postgresql-client \
     wget \
     xz-utils \
     && apt-get clean \
@@ -70,4 +70,3 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 # Set the default command
 CMD ["odoo"]
-
