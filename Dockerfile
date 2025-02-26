@@ -53,10 +53,10 @@ RUN git clone --depth 1 --branch ${ODOO_VERSION} ${ODOO_REPO} ${ODOO_HOME}/serve
 WORKDIR ${ODOO_HOME}/server
 
 # Install problematic dependencies separately
-RUN pip3 install cython==0.29.24 gevent==21.8.0 greenlet==1.1.1
+RUN pip3 install cython==0.29.24 gevent==21.12.0 greenlet==1.1.2
 
-# Install remaining dependencies from requirements file
-RUN pip3 install -r requirements.txt
+# Install remaining dependencies from requirements file with increased timeout and no cache
+RUN pip3 install --default-timeout=1000 -r requirements.txt
 
 # Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /entrypoint.sh
