@@ -69,4 +69,4 @@ EXPOSE 8069
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Set the default command
-CMD ["odoo"]
+CMD ["./odoo-bin", "--config", "/opt/odoo/odoo.conf"]
